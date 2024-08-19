@@ -17,13 +17,19 @@ defmodule RestarTestWeb.Router do
   scope "/", RestarTestWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/", AddressesController, :index
+    post "/addresses", AddressesController, :process_upload
+    delete "/addresses", AddressesController, :clear
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", RestarTestWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", RestarTestWeb do
+    pipe_through :api
+
+    get "/", AddressesController, :index
+    post "/addresses", AddressesController, :process_upload
+    delete "/addresses", AddressesController, :clear
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:restar_test, :dev_routes) do

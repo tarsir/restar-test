@@ -1,0 +1,47 @@
+<.header>
+  Japanese Address Storage
+  <h2 class="text-lg">Using this site</h2>
+  <p>
+    This small application allows you to submit CSV files of Japanese addresses for storage and viewing.
+    You can either use this web view and upload a file via the form below, or you can use the JSON
+    API with the following endpoints:
+  </p>
+
+  <ul class="list-disc ml-8">
+    <li><b>GET /api/</b>: index view, returns all addresses</li>
+    <li><b>POST /api/addresses</b>: upload view, allows you to upload a CSV file</li>
+    <li><b>DELETE /api/addresses</b>: clears the database of all stored addresses</li>
+  </ul>
+
+  <.simple_form
+    :let={f}
+    class="border-2 rounded border-gray-700 my-4 px-4 pb-2"
+    for={%{}}
+    action={~p"/addresses/"}
+    multipart
+  >
+    <.input field={f[:file]} type="file" label="Addresses CSV" />
+
+    <:actions>
+      <.button>Submit</.button>
+    </:actions>
+  </.simple_form>
+</.header>
+
+<div :if={Map.get(@conn.assigns, :result)}>
+  <%= @result.message %>
+</div>
+
+<.table id="addresses" rows={@addresses}>
+  <:col :let={address} label="Prefecture"><%= address.prefecture %></:col>
+  <:col :let={address} label="City"><%= address.city %></:col>
+  <:col :let={address} label="Town"><%= address.town %></:col>
+  <:col :let={address} label="Chome"><%= address.chome %></:col>
+  <:col :let={address} label="Banchi"><%= address.banchi %></:col>
+  <:col :let={address} label="Go"><%= address.go %></:col>
+  <:col :let={address} label="Building"><%= address.building %></:col>
+  <:col :let={address} label="Price"><%= address.price %></:col>
+  <:col :let={address} label="Nearest Station"><%= address.nearest_station %></:col>
+  <:col :let={address} label="Property Type"><%= address.property_type %></:col>
+  <:col :let={address} label="Land Area"><%= address.land_area %></:col>
+</.table>
