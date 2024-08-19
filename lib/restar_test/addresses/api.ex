@@ -29,6 +29,7 @@ defmodule RestarTest.Addresses.AddressApi do
         |> Map.put(:updated_at, timestamps)
       end)
 
+    # if we try to insert too many at once, Postgres fails out here, so we add 1000 at a time
     inserts =
       addresses
       |> Enum.chunk_every(1000)
